@@ -5,18 +5,27 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Diagnostics;
 
 namespace TestExApp
 {
     class Program
     {
         public static void Main(string[] args)
-        {        
+        {
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
             Dictionary<string, string> bigDictonary = GetDictonary(@"Dictonary.txt");
             string[] titles = GetTitles(@"titles2.txt");
             Trie<string> trie = GetTree(bigDictonary);
             string[] result = Translate(trie, titles);
             Console.WriteLine("Complete! Check result string[] on Debug mode ;)");
+            stopWatch.Stop();
+            TimeSpan ts = stopWatch.Elapsed;
+            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                ts.Hours, ts.Minutes, ts.Seconds,
+                ts.Milliseconds / 10);
+            Console.WriteLine("RunTime " + elapsedTime);
             Console.ReadKey();
         }
         
@@ -31,8 +40,6 @@ namespace TestExApp
                 key = title;
                 for (int c = 0; c< titles[i].Length; c++)
                 {
-                    if (key == "arvu")
-                        Console.Beep();
                     var s = tree.GetByPrefix(key).Select(e => e.Value).ToArray();
                     if (s.Length == 0)
                         key = key.Remove(key.Length - 1);
