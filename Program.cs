@@ -11,34 +11,43 @@ namespace TestExApp
 {
     class Program
     {
+        static int MaxBigKey = 0;
         public static void Main(string[] args)
         {
             Stopwatch stopWatch = new Stopwatch();
+            Stopwatch SearchWatch = new Stopwatch();
             stopWatch.Start();
             Dictionary<string, string> bigDictonary = GetDictonary(@"Dictonary.txt");
             string[] titles = GetTitles(@"titles2.txt");
             Trie<string> trie = GetTree(bigDictonary);
+            SearchWatch.Start();
             string[] result = Translate(trie, titles);
+            SearchWatch.Stop();
             Console.WriteLine("Complete! Check result string[] on Debug mode ;)");
             stopWatch.Stop();
             TimeSpan ts = stopWatch.Elapsed;
+            TimeSpan ts2 = SearchWatch.Elapsed;
             string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
                 ts.Hours, ts.Minutes, ts.Seconds,
                 ts.Milliseconds / 10);
+            string elapsedTime2 = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                ts2.Hours, ts2.Minutes, ts2.Seconds,
+                ts2.Milliseconds / 10);
             Console.WriteLine("RunTime " + elapsedTime);
+            Console.WriteLine("TranslateTime " + elapsedTime2);
             Console.ReadKey();
         }
-        
+
         static string[] Translate(Trie<string> tree, string[] titles)
         {
             string[] result = new string[titles.Length];
-            for(int i = 0; i< titles.Length; i++)
+            for (int i = 0; i < titles.Length; i++)
             {
                 string words = "";
                 string key = "";
                 string title = titles[i];
-                key = title;
-                for (int c = 0; c< titles[i].Length; c++)
+                key = title.Substring(0, MaxBigKey);
+                for (int c = 0; c < titles[i].Length; c++)
                 {
                     var s = tree.GetByPrefix(key).Select(e => e.Value).ToArray();
                     if (s.Length == 0)
@@ -48,10 +57,14 @@ namespace TestExApp
                         words += s[0];
                         c = 0;
                         title = title.Substring(key.Length);
-                        key = title;
-                        if (key == "")
+                        if (key == "" || title == "")
                             break;
-                    }                       
+                        if (title.Length >= MaxBigKey)
+                            key = title.Substring(0, MaxBigKey);
+                        else
+                            key = title;
+
+                    }
                 }
                 result[i] = words;
             }
@@ -70,7 +83,7 @@ namespace TestExApp
             {
                 return File.ReadAllLines(directory);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 return null;
@@ -84,29 +97,19 @@ namespace TestExApp
                 StreamReader reader = new StreamReader(directory);
                 while (!reader.EndOfStream)
                 {
-                    /*  char[] line = reader.ReadLine().ToCharArray();
-                     foreach (var c in line)
-                         if (Regex.IsMatch(c.ToString(), @"\A[\s\,\.\!\?\p{IsCyrillic}\p{IsBasicLatin}]*\z", RegexOptions.IgnoreCase | RegexOptions.Multiline))
-                         {
-                             value += c;
-                         }
-                         else
-                         {
-                             key += c;
-                         }
-                     resultDictonary.Add(key, value);*/
-
                     string[] lines = reader.ReadLine().Split(';');
+                    if (lines[0].Length > MaxBigKey)
+                        MaxBigKey = lines[0].Length;
                     resultDictonary.Add(lines[0], lines[1]);
                 }
                 return resultDictonary;
             }
-           catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 return null;
             }
-            
+
         }
 
     }
