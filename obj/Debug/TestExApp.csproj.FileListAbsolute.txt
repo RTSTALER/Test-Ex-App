@@ -5,3 +5,9 @@ C:\Users\rtsta\source\repos\TestExApp\TestExApp\obj\Debug\TestExApp.csprojAssemb
 C:\Users\rtsta\source\repos\TestExApp\TestExApp\obj\Debug\TestExApp.csproj.CoreCompileInputs.cache
 C:\Users\rtsta\source\repos\TestExApp\TestExApp\obj\Debug\TestExApp.exe
 C:\Users\rtsta\source\repos\TestExApp\TestExApp\obj\Debug\TestExApp.pdb
+C:\Users\rtsta\source\repos\TestExApp\TestExApp\Test-Ex-App\bin\Debug\TestExApp.exe.config
+C:\Users\rtsta\source\repos\TestExApp\TestExApp\Test-Ex-App\bin\Debug\TestExApp.exe
+C:\Users\rtsta\source\repos\TestExApp\TestExApp\Test-Ex-App\bin\Debug\TestExApp.pdb
+C:\Users\rtsta\source\repos\TestExApp\TestExApp\Test-Ex-App\obj\Debug\TestExApp.csprojAssemblyReference.cache
+C:\Users\rtsta\source\repos\TestExApp\TestExApp\Test-Ex-App\obj\Debug\TestExApp.exe
+C:\Users\rtsta\source\repos\TestExApp\TestExApp\Test-Ex-App\obj\Debug\TestExApp.pdb
